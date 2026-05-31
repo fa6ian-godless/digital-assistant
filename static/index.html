@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/style.css">
+    <script>
+        tailwind.config = {
+            content: [],
+            theme: {
+                extend: {}
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50">
+    
+    <div class="header py-5 shadow-sm">
+        <div class="container mx-auto px-6 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div>
+                    <h1 class="text-2xl font-semibold text-slate-900">Digital Assistant</h1>
+                </div>
+            </div>
+            <div class="flex items-center gap-6 text-sm">
+                <button onclick="showHistory()" class="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition-colors font-medium">
+                    <i class="fa-solid fa-history"></i> История
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-6 py-8">
+        <div class="main-content">
+            <div class="sidebar">
+                <h3 class="font-semibold text-slate-800 mb-6 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check"></i> Этапы обработки
+                </h3>
+                <div class="space-y-6 text-sm">
+                    <div class="flex gap-3">
+                        <div class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-bold">1</div>
+                        <div>Загрузка записи</div>
+                    </div>
+                    <div class="flex gap-3">
+                        <div class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-bold">2</div>
+                        <div>Транскрипция</div>
+                    </div>
+                    <div class="flex gap-3">
+                        <div class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-bold">3</div>
+                        <div>Разметка ролей + задач</div>
+                    </div>
+                    <div class="flex gap-3">
+                        <div class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-bold">4</div>
+                        <div>Формирование протокола</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-1 space-y-8">
+                <div class="step-card">
+                    <h2 class="text-xl font-semibold mb-6 flex items-center gap-3">
+                        <span class="text-blue-600">1.</span> Загрузка записи совещания
+                    </h2>
+                    <input type="file" id="recordFile" accept="audio/*,video/*" 
+                           class="block w-full text-sm text-slate-500 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    <button onclick="uploadRecord()" 
+                            class="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-2xl font-medium flex items-center gap-3">
+                        <i class="fa-solid fa-upload"></i> Загрузить на сервер
+                    </button>
+                    <p id="uploadStatus" class="mt-4 text-sm min-h-[1.25rem]"></p>
+                </div>
+
+                <div class="step-card">
+                    <h2 class="text-xl font-semibold mb-6 flex items-center gap-3">
+                        <span class="text-blue-600">2.</span> Транскрипция
+                    </h2>
+                    <button onclick="startTranscription()" id="transcribeBtn" disabled
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-2xl font-medium flex items-center gap-3">
+                        <i class="fa-solid fa-microphone"></i> Запустить транскрипцию
+                    </button>
+                    <p id="transcribeStatus" class="mt-4 text-sm min-h-[1.25rem]"></p>
+                    <div id="transcribeThinking" class="thinking hidden mt-4">
+                        <span>Обработка записи</span>
+                        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                    </div>
+                    <div id="transcriptPreview" class="preview mt-6 hidden"></div>
+                </div>
+
+                <div class="step-card">
+                    <h2 class="text-xl font-semibold mb-6 flex items-center gap-3">
+                        <span class="text-blue-600">3.</span> Обработка
+                    </h2>
+                    <button onclick="processMeeting()" id="processBtn" disabled
+                            class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3.5 rounded-2xl font-medium flex items-center gap-3">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Запустить обработку
+                    </button>
+                    <p id="processStatus" class="mt-4 text-sm min-h-[1.25rem]"></p>
+                    <div id="processThinking" class="thinking hidden mt-4">
+                        <span>Анализ</span>
+                        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                    </div>
+                </div>
+
+                <div id="results" class="step-card hidden">
+                    <h2 class="text-2xl font-semibold mb-8 flex items-center gap-3 text-emerald-700">
+                        <i class="fa-solid fa-circle-check"></i> Результаты обработки
+                    </h2>
+
+                    <div class="tabs">
+                        <button onclick="showTab(0)" class="tab-btn active">Участники</button>
+                        <button onclick="showTab(1)" class="tab-btn">Задачи</button>
+                        <button onclick="showTab(2)" class="tab-btn">Протокол</button>
+                        <button onclick="showTab(3)" class="tab-btn">Транскрипция</button>
+                    </div>
+
+                    <div id="tab0" class="tab-content">
+                        <table id="speakersTable" class="w-full"></table>
+                    </div>
+                    <div id="tab1" class="tab-content hidden">
+                        <table id="tasksTable" class="w-full"></table>
+                    </div>
+                    <div id="tab2" class="tab-content hidden">
+                        <div id="protocolContent" class="markdown prose max-w-none"></div>
+                        <button onclick="downloadProtocol()" 
+                                class="mt-6 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-2xl flex items-center gap-2">
+                            <i class="fa-solid fa-download"></i> Скачать протокол (.md)
+                        </button>
+                    </div>
+                    <div id="tab3" class="tab-content hidden">
+                        <pre id="fullTranscript" class="preview whitespace-pre-wrap"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+
+</body>
+</html>
