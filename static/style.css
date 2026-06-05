@@ -168,3 +168,134 @@ td {
     overflow: hidden;
     box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
 }
+
+@media (max-width: 1024px) {
+    .main-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .sidebar {
+        width: 100%;
+        position: static;
+        top: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 16px;
+    }
+
+    .header .container {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .step-card {
+        padding: 20px;
+        border-radius: 16px;
+        margin-bottom: 20px;
+    }
+
+    .step-card h2 {
+        font-size: 1.15rem;
+        line-height: 1.35;
+    }
+
+    button {
+        width: 100%;
+        justify-content: center;
+        min-height: 52px;
+        font-size: 1rem;
+    }
+
+    .tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+        scrollbar-width: none;
+        gap: 4px;
+        padding-bottom: 4px;
+    }
+
+    .tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tab-btn {
+        flex-shrink: 0;
+        padding: 14px 20px;
+        font-size: 0.95rem;
+    }
+
+    .preview,
+    .markdown,
+    pre {
+        padding: 16px;
+        font-size: 0.95rem;
+        max-height: 340px;
+        line-height: 1.55;
+    }
+
+    .modal-content {
+        width: calc(100% - 32px);
+        max-height: 92vh;
+        border-radius: 20px;
+        margin: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header .container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .header h1 {
+        font-size: 1.45rem;
+    }
+
+    .sidebar {
+        padding: 20px;
+    }
+
+    .step-card {
+        padding: 18px;
+    }
+
+    .step-card h2 {
+        font-size: 1.1rem;
+    }
+
+    input[type="file"] {
+        padding: 12px 0;
+    }
+
+    th,
+    td {
+        padding: 12px 14px;
+        font-size: 0.9rem;
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+
+    .modal-content .space-y-3 > * {
+        padding: 16px !important;
+    }
+}
+
+.step-card button {
+    margin-top: 16px;
+}
+
+.preview, pre {
+    word-break: break-word;
+}
+
+#uploadStatus, #transcribeStatus, #processStatus {
+    word-break: break-word;
+    line-height: 1.4;
+}

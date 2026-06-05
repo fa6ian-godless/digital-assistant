@@ -17,16 +17,18 @@
 </head>
 <body class="bg-slate-50">
     
-    <div class="header py-5 shadow-sm">
-        <div class="container mx-auto px-6 flex items-center justify-between">
+    <div class="header py-4 shadow-sm">
+        <div class="container mx-auto px-4 md:px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div class="flex items-center gap-3">
                 <div>
-                    <h1 class="text-2xl font-semibold text-slate-900">Digital Assistant</h1>
+                    <h1 class="text-2xl md:text-3xl font-semibold text-slate-900">Digital Assistant</h1>
                 </div>
             </div>
             <div class="flex items-center gap-6 text-sm">
-                <button onclick="showHistory()" class="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition-colors font-medium">
-                    <i class="fa-solid fa-history"></i> История
+                <button onclick="showHistory()" 
+                    class="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition-colors font-medium py-2 px-4 rounded-xl hover:bg-slate-100">
+                    <i class="fa-solid fa-history"></i> 
+                    <span class="hidden sm:inline">История</span>
                 </button>
             </div>
         </div>
